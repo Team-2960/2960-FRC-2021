@@ -83,6 +83,9 @@ public class OI extends SubsystemBase{
             drive.targetLineUp();
             drive.anglePID = true;
         }
+        else if(driver_Control.getRawButton(6)){
+            drive.anglePID = false;
+        }
         else{
             drive.setSpeed(driver_Control.getRawAxis(1)* -0.75, driver_Control.getRawAxis(5)* -0.75); //drive
         }

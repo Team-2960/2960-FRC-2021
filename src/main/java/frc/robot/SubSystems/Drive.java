@@ -46,6 +46,7 @@ public class Drive extends SubsystemBase {
   public double cameraAngle = 0;
   private double targetAngle = 0;
   public boolean anglePID;
+  private double cameraCalcAngle = 0;
   
   
   /** 
@@ -127,7 +128,8 @@ public class Drive extends SubsystemBase {
   }
   */
   public void targetLineUp(){
-    setTargetAngle(camera.calcAngle(camera.getCenterX()) +  navX.getAngle());
+    cameraCalcAngle =camera.calcAngle(camera.getCenterX());
+    setTargetAngle(navX.getAngle() - 2 * camera.calcAngle(camera.getCenterX()));
   }
   public void setTargetAngle(double angle){
     targetAngle = angle;
@@ -216,14 +218,14 @@ public class Drive extends SubsystemBase {
 
     } 
     else if(absError < 15 && absError > 10){
-      double rate = 150;
+      double rate = -150;
       setArcDriveRate(negative * rate, forwardspeed);
       } 
     else if(absError < 1){
       setArcDriveRate(0, forwardspeed);
     }
     else{
-      double rate = 80;
+      double rate = -80;
       setArcDriveRate(negative * rate, forwardspeed);
     }
   }
@@ -242,7 +244,9 @@ public class Drive extends SubsystemBase {
   }
   public void SmartDashboard(){
     SmartDashboard.putNumber("Angle", (double) navX.getAngle());
-    SmartDashboard.putNumber("Target Angle", camera.calcAngle(camera.getCenterX()) +  navX.getAngle());
+    SmartDashboard.putNumber("Target Angle", targetAngle);
+    SmartDashboard.putNumber("Camera Angle", cameraCalcAngle);
+
     //SmartDashboard.putNumber("Right Encoder", rightEncoder.getPosition());
     //SmartDashboard.putNumber("Left Encoder", leftEncoder.getPosition());
     //SmartDashboard.putNumber("Right current", mRightMaster.getOutputCurrent());

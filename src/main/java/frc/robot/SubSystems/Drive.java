@@ -40,6 +40,7 @@ public class Drive extends SubsystemBase {
   public double TargetAngle;
 
   public double forwardSpeed;
+  public double targetSpeed = 0;
   public int PIDCheck = 0;
   public boolean isDrivePIDEnabled = false;
   private static Camera camera;
@@ -221,11 +222,11 @@ public class Drive extends SubsystemBase {
       double rate = -150;
       setArcDriveRate(negative * rate, forwardspeed);
       } 
-    else if(absError < 1){
+    else if(absError < 0.3){
       setArcDriveRate(0, forwardspeed);
     }
     else{
-      double rate = -80;
+      double rate = -60;
       setArcDriveRate(negative * rate, forwardspeed);
     }
   }
@@ -239,11 +240,15 @@ public class Drive extends SubsystemBase {
     double speed = drivePidController.calculate(navX.getRawGyroX(), rate); //calc the speed
     setSpeed(-speed + forwardSpeed, speed + forwardSpeed);
   } 
+  public void setAngularRate(double rate, double forward){
+    setArcDriveRate(rate/0.563703, forwardSpeed);
+  }
   public void adjustToTarget(){
     startGoToAngleDistance(0, cameraAngle, 0, 2);
   }
   public void SmartDashboard(){
     SmartDashboard.putNumber("Angle", (double) navX.getAngle());
+    SmartDashboard.putNumber("rate angle",  navX.getRawGyroZ());
     SmartDashboard.putNumber("Target Angle", targetAngle);
     SmartDashboard.putNumber("Camera Angle", cameraCalcAngle);
 
@@ -261,8 +266,8 @@ public class Drive extends SubsystemBase {
   public void periodic() {
     SmartDashboard();
     if(anglePID){
-    setDriveToAngle(targetAngle, 0);
-  }
+      setDriveToAngle(targetAngle, targetSpeed);
+    }
     
     //UNCOMMENT FUNCTION
     /* if(isDrivePIDEnabled){

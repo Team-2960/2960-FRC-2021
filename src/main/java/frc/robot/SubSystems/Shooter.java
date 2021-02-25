@@ -120,7 +120,7 @@ public class Shooter extends SubsystemBase{
       boolean readyToShoot = false;
       double rError = Math.abs(Math.abs(mRightShooter.getSelectedSensorVelocity()) - Math.abs(targetRate));
       double lError = Math.abs(Math.abs(mLeftShooter.getSelectedSensorVelocity()) - Math.abs(targetRate));
-      if(rError < 150 || lError < 150){
+      if(rError < 300 && lError < 300){
         readyToShoot = true;
       }
       return readyToShoot;
@@ -141,7 +141,7 @@ public class Shooter extends SubsystemBase{
     public void periodic() {
       //Timer time = new Timer();
       //time.start();
-    //SmartDashBoard();
+    SmartDashBoard();
     // This method will be called once per scheduler run
       //SmartDashboard.putNumber("shooterTimer",  time.get());
     }
@@ -154,6 +154,6 @@ public class Shooter extends SubsystemBase{
      */
     private void setPIDShooterSpeed(double speed){
       mRightShooter.set(ControlMode.Velocity, speed);
-      mLeftShooter.set(ControlMode.Velocity, speed);
+      mLeftShooter.set(ControlMode.Velocity, speed+150);
     }
 }

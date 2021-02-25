@@ -66,7 +66,15 @@ public class OI extends SubsystemBase{
                 mShooter.ShortShoot(); // go to target angle and rate
             }else if(oLongPreset()){ //long preset
                 mShooter.longShoot(); // go to target angle and rate   
-             }/*else if(oCameraTracking()){
+            }else if(driver_Control.getRawButton(1)){
+                pivot.setPTargetAngle(145);
+                shooter.gotoRate(-7250);
+                if(dShootOut() && driver_Control.getRawButton(2)){
+                    mShooter.shootAlways(-7250);
+                }
+
+            }
+                /*else if(oCameraTracking()){
                 mShooter.wheelOfFortunePreset(); //go to target angle for wof
             } */else{ 
                 mShooter.toNeuturalPosition(); // go to netural position
@@ -79,7 +87,7 @@ public class OI extends SubsystemBase{
         }
         //Driver Control
         //TODO: May be need a deadband
-        if(dAlignDrive()){
+        if(dAlignDrive() || oCameraTracking()){
             drive.targetLineUp();
             drive.anglePID = true;
         }
@@ -87,6 +95,7 @@ public class OI extends SubsystemBase{
             drive.anglePID = false;
         }
         else{
+           //drive.setArcDriveRate(50, driver_Control.getRawAxis(5));
             drive.setSpeed(driver_Control.getRawAxis(1)* -0.75, driver_Control.getRawAxis(5)* -0.75); //drive
         }
         if(driver_Control.getRawButton(6)){
@@ -101,7 +110,7 @@ public class OI extends SubsystemBase{
             shooter.setShooterSpeed(-0.4, -0.4); 
         }else if(oShortPreset() && dShootOut()){ //auto shoot ball
             mShooter.dShortShoot();
-        }else if(oLongPreset() && dShootOut()){ // auto shoot ball
+        }else if(oLongPreset() && (dShootOut())){ // auto shoot ball
             mShooter.dLongShoot();
         }else if(backUp_Control.getRawButton(4)){
             shooter.gotoRate(Constants.shortPreset[0]);

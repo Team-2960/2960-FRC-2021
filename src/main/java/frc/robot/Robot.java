@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Sendable;
 import frc.robot.Camera.Camera;
 import frc.robot.OI;
+import frc.robot.Auto.Barrel;
 import frc.robot.Auto.ShootAndMove;
 import frc.robot.Constants;
 import frc.robot.SubSystems.*;
@@ -27,12 +28,13 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    autonCommand = new ShootAndMove();
+    autonCommand = new Barrel();
     if(autonCommand != null) autonCommand.schedule();
   }
 
   @Override
   public void autonomousPeriodic() {
+    
     
   }
 

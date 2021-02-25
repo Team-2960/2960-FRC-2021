@@ -204,6 +204,7 @@ public class Pivot extends SubsystemBase{
       SmartDashboard.putNumber("Right motor Temp: ", mRightPivot.getMotorTemperature());
       SmartDashboard.putNumber("Left motor Current: ", mLeftPivot.getOutputCurrent());
       SmartDashboard.putNumber("RIght motor Current: ", mRightPivot.getOutputCurrent());
+     
       //SmartDashboard.putNumber("",)
     }
     
@@ -211,6 +212,7 @@ public class Pivot extends SubsystemBase{
      * run every time
      */
     public void periodic() {
+      smartdashboard();
       //Timer time = new Timer();
       //time.start();
       // This method will be called once per scheduler run

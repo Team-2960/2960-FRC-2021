@@ -41,7 +41,7 @@ public class Index extends SubsystemBase {
   /**
    * Gets the photo eye and prints it
    */
-  public static void setSpeed(double right, double left) {
+  public void setSpeed(double right, double left) {
     mLeftIndex.set(left);
     mRightIndex.set(-right);
   }
@@ -76,6 +76,8 @@ public class Index extends SubsystemBase {
   }
   public void SmartDashboard(){
     SmartDashboard.putBoolean("indexPhoto", photoeye.get());
+    SmartDashboard.putNumber("Right Motor i", mRightIndex.get());
+    SmartDashboard.putNumber("left Motor i", mLeftIndex.get());
   }
   @Override
   public void periodic() {
@@ -83,14 +85,14 @@ public class Index extends SubsystemBase {
     //time.start();
     // This method will be called once per scheduler run
     // This method will be called once per scheduler run 
-    //SmartDashboard();
-    if(isAutoIndexEnabled){
+    SmartDashboard();
+    /*if(isAutoIndexEnabled){
       if(isIndexEnabled == 1){
         startIndexIn();
       }else if(isIndexEnabled == -1){
         startIndexOut();
       }
-    }
+    }*/
     //SmartDashboard.putNumber("IndexTimer",  time.get());
   }
 

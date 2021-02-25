@@ -20,6 +20,7 @@ public class MEGAShooter extends SubsystemBase {
   public double speed = -6000;
   public boolean setMotorToIntake = false;
   public Timer shootTimer;
+  public Timer afterShoot;
   /** 
    * @return megaShooter
    */
@@ -40,6 +41,7 @@ public class MEGAShooter extends SubsystemBase {
     pivot = Pivot.get_Instance();
     index = Index.get_Instance();
     shootTimer = new Timer();
+    afterShoot = new Timer();
   }
   
   /** 
@@ -135,6 +137,7 @@ public class MEGAShooter extends SubsystemBase {
    * uses the ready to shoot function to tell when the shooter can shoot with acurracy
    * @param rate th rate
    */
+  boolean seenBall = false;
   public void shootAlways(double rate){
     
     shooter.gotoRate(rate);
@@ -147,14 +150,22 @@ public class MEGAShooter extends SubsystemBase {
       shoot = false;
     }
     }if(shoot){
-      Index.setSpeed(-0.75, -0.75);
-    }else{
-      Index.setSpeed(0, 0);
+      shootTimer.start();
     }
-    if(Index.getPhotoeyeIndex()){
-      Index.setSpeed(0, 0);
-      shoot = false;
+    if(shootTimer.get() > 0.25){
+      shootTimer.stop();
+      shootTimer.reset();
+      afterShoot.start();
+      index.setSpeed(-1, -1);
     }
+    if(afterShoot.get() > 0.1){
+      afterShoot.reset();
+      afterShoot.stop();
+      index.setSpeed(0, 0);
+      shoot=false;
+    }
+
+
 
   }
 

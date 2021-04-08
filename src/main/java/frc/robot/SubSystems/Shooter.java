@@ -93,8 +93,8 @@ public class Shooter extends SubsystemBase{
      * @param speed the speed you want the shooter to be set to
      */
     public void setShooterSpeed(double right, double left){
-      mRightShooter.set(ControlMode.PercentOutput, right);
-      mLeftShooter.set(ControlMode.PercentOutput, left);
+      mRightShooter.set(ControlMode.PercentOutput, -right);
+      mLeftShooter.set(ControlMode.PercentOutput, -left);
     }
     
     
@@ -120,7 +120,7 @@ public class Shooter extends SubsystemBase{
       boolean readyToShoot = false;
       double rError = Math.abs(Math.abs(mRightShooter.getSelectedSensorVelocity()) - Math.abs(targetRate));
       double lError = Math.abs(Math.abs(mLeftShooter.getSelectedSensorVelocity()) - Math.abs(targetRate));
-      if(rError < 300 && lError < 300){
+      if(rError < 300 || lError < 300){
         readyToShoot = true;
       }
       return readyToShoot;

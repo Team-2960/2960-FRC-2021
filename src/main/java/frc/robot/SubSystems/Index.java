@@ -14,7 +14,7 @@ public class Index extends SubsystemBase {
   private static Index index;
   public static CANDigitalInput photoeye;
   
-  private static CANSparkMax mRightIndex;
+  private static CANSparkMax mRightIndex;//top when opposite intak pos
   private static CANSparkMax mLeftIndex;
 
   private int isIndexEnabled = 0;
@@ -33,7 +33,7 @@ public class Index extends SubsystemBase {
   private Index() {
     mLeftIndex = new CANSparkMax(Constants.mIndex1, MotorType.kBrushless);
     mRightIndex = new CANSparkMax(Constants.mIndex2, MotorType.kBrushless);
-    photoeye = new CANDigitalInput(mLeftIndex, CANDigitalInput.LimitSwitch.kForward,
+    photoeye = new CANDigitalInput(mRightIndex, CANDigitalInput.LimitSwitch.kForward,
         CANDigitalInput.LimitSwitchPolarity.kNormallyOpen);
     mRightIndex.getEncoder().setPosition(0);
   }
@@ -43,11 +43,11 @@ public class Index extends SubsystemBase {
    */
   public void setSpeed(double right, double left) {
     mLeftIndex.set(left);
-    mRightIndex.set(-right);
+    mRightIndex.set(right*0.9);
   }
-  private void startIndexIn(){
+  public void startIndexIn(){
       if(photoeye.get()){
-        setSpeed(0.9, 0.75);// 1, 0.85
+        setSpeed(0.9, 0.9);// 1, 0.85
       }
       else{
         setSpeed(0, 0);
@@ -75,6 +75,7 @@ public class Index extends SubsystemBase {
     return photoeye.get();
   }
   public void SmartDashboard(){
+    //System.out.println(photoeye.get());
     SmartDashboard.putBoolean("indexPhoto", photoeye.get());
     SmartDashboard.putNumber("Right Motor i", mRightIndex.get());
     SmartDashboard.putNumber("left Motor i", mLeftIndex.get());

@@ -155,8 +155,11 @@ public class Constants{
                                                     {4.5, 40, 40, 4000},
                                                     {5, 20, 20, 4000}
                                                 }; */
-    public final static double longPreset [] ={-6500, 155, 150};
-    public final static double shortPreset [] ={-4000, 182, 150};
+    public final static double longPreset [] ={-6500, 149, 150};//1-2
+    public final static double shortPreset [] ={-4000, 179, 150};
+    public final static double preset2 [] = {-7500, 144,150};//2-3
+    public final static double preset3 [] = {-8000, 140 ,150};//3-4
+    public final static double preset4 [] = {-6000, 140 ,150};//{-5000, 170 ,150};//0-1
     public final static double autonPreset [] ={-6500, 170, 100};
     public final static double feederPreset [] = {2000, 290, 100};
     public final static double wheelOfFortunePreset [] = { 1000, 150, 2960};

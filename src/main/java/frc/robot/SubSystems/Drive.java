@@ -331,8 +331,8 @@ public class Drive extends SubsystemBase {
    * @param right right motor speed
    */
   public void setSpeed(double left, double right){
-    mLeftMaster.set(-left);
-    mRightMaster.set(right);
+    mLeftMaster.set(-left*0.7);
+    mRightMaster.set(right*0.7);
   }
   
   /** 

@@ -63,9 +63,13 @@ public class OI extends SubsystemBase{
                 //sets intake down ready to intake
                 mShooter.intakePosition();  // this will move the intake down and pivot down
             }else if(oShortPreset()){ // short preset
-                mShooter.ShortShoot(); // go to target angle and rate
+                mShooter.preset4(); // go to target angle and rate
             }else if(oLongPreset()){ //long preset
                 mShooter.longShoot(); // go to target angle and rate   
+            }else if(oClimbExtended()){
+                mShooter.preset2();
+            }else if(oClimbRetracted()){
+                mShooter.preset3();
             }else if(driver_Control.getRawButton(1)){
                 pivot.setPTargetAngle(145);
                 shooter.gotoRate(-7250);
@@ -90,6 +94,7 @@ public class OI extends SubsystemBase{
         if(dAlignDrive() || oCameraTracking()){
             drive.targetLineUp();
             drive.anglePID = true;
+            
         }
         else if(driver_Control.getRawButton(6)){
             drive.anglePID = false;
@@ -108,13 +113,21 @@ public class OI extends SubsystemBase{
         }else if(dintakeOut()){ //intake and shooter out take
             intake.setSpeed(-1); //out
             shooter.setShooterSpeed(-0.4, -0.4); 
-        }else if(oShortPreset() && dShootOut()){ //auto shoot ball
-            mShooter.dShortShoot();
+            index.startIndexIn();
+        }else if(oShortPreset() && oWinching()){ //auto shoot ball
+            mShooter.dPreset4();
         }else if(oLongPreset() && (dShootOut())){ // auto shoot ball
             mShooter.dLongShoot();
-        }else if(backUp_Control.getRawButton(4)){
+        
+        }else if(oClimbExtended() && (dShootOut())){ // auto shoot ball
+            mShooter.dPreset2();
+        }else if(oClimbRetracted() && (dShootOut())){ // auto shoot ball
+            mShooter.dPreset3();
+        }
+        else if(backUp_Control.getRawButton(4)){
             shooter.gotoRate(Constants.shortPreset[0]);
-        }/* else if(oCameraTracking()&& dShootOut()){
+        }
+            /* else if(oCameraTracking()&& dShootOut()){
             shooter.setShooterSpeed(0.1, -0.1); //run the shooter wof
         } */
         
@@ -132,7 +145,7 @@ public class OI extends SubsystemBase{
         }
 
         //winch
-        if(oWinching()) { //winch in
+        /*if(oWinching()) { //winch in
             climb.setSpeed(-0.9);
         }else if(dBackWinching()) { // winch out
             climb.setSpeed(0.2);
@@ -145,7 +158,7 @@ public class OI extends SubsystemBase{
         }
         else if(oClimbRetracted()){
             climb.setPosition(1);
-        }
+        }*/
 
     }
     

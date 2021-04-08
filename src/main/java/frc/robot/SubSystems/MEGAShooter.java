@@ -75,7 +75,7 @@ public class MEGAShooter extends SubsystemBase {
    */
   public void intakeEnableDr(){
     //intake in
-    index.enableIndex(1);
+    index.startIndexIn();
     intake.setSpeed(1);
     shooter.gotoRate(4000);
   }
@@ -137,7 +137,7 @@ public class MEGAShooter extends SubsystemBase {
    * uses the ready to shoot function to tell when the shooter can shoot with acurracy
    * @param rate th rate
    */
-  boolean seenBall = false;
+  boolean bool = false;
   public void shootAlways(double rate){
     
     shooter.gotoRate(rate);
@@ -149,20 +149,26 @@ public class MEGAShooter extends SubsystemBase {
     else{
       shoot = false;
     }
-    }if(shoot){
+    }if(!bool){
+    if(shoot){
+      bool = true;
       shootTimer.start();
-    }
-    if(shootTimer.get() > 0.25){
-      shootTimer.stop();
-      shootTimer.reset();
-      afterShoot.start();
       index.setSpeed(-1, -1);
     }
-    if(afterShoot.get() > 0.1){
-      afterShoot.reset();
-      afterShoot.stop();
+  }
+
+    if(shootTimer.get() > 0.07){
+      
+      shootTimer.reset();
+      shootTimer.stop();
+      afterShoot.start();
       index.setSpeed(0, 0);
-      shoot=false;
+    }
+    if(afterShoot.get() >0.2){
+      shoot = false;
+      bool=false;
+      afterShoot.stop();
+      afterShoot.reset();
     }
 
 
@@ -188,6 +194,18 @@ public class MEGAShooter extends SubsystemBase {
   public void longShoot(){
     pivot.setPTargetAngle(Constants.longPreset[1]);
     shooter.gotoRate(Constants.longPreset[0]);
+  }
+  public void preset2(){
+    pivot.setPTargetAngle(Constants.preset2[1]);
+    shooter.gotoRate(Constants.preset2[0]);
+  }
+  public void preset3(){
+    pivot.setPTargetAngle(Constants.preset3[1]);
+    shooter.gotoRate(Constants.preset3[0]);
+  }
+  public void preset4(){
+    pivot.setPTargetAngle(Constants.preset4[1]);
+    shooter.gotoRate(Constants.preset4[0]);
   }
 
 
@@ -215,10 +233,20 @@ public class MEGAShooter extends SubsystemBase {
    * shoots the balls at the long shoot
    */
   public void dLongShoot(){
-    shootAlways(Constants.autonPreset[0]);
+    shootAlways(Constants.longPreset[0]);
+  }
+  public void dPreset2(){
+    shootAlways(Constants.preset2[0]);
+  }
+  public void dPreset3(){
+    shootAlways(Constants.preset3[0]);
+  }
+  public void dPreset4(){
+    shootAlways(Constants.preset4[0]);
   }
   @Override
   public void periodic() {
+    System.out.println(shoot + "shoot");
     //Timer time = new Timer();
     //time.start();
     // This method will be called once per scheduler run
